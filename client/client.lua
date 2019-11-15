@@ -58,7 +58,7 @@ end, false)
 
 RegisterCommand('radiotest', function(source, args)
   local playerName = GetPlayerName(PlayerId())
-  local data = exports.tokovoip_script:getPlayerData(playerName, "radio:channel")
+  local data = exports.ugrp-tokovoip:getPlayerData(playerName, "radio:channel")
 
   print(tonumber(data))
 
@@ -76,14 +76,14 @@ RegisterNUICallback('joinRadio', function(data, cb)
     local _source = source
     local PlayerData = ESX.GetPlayerData(_source)
     local playerName = GetPlayerName(PlayerId())
-    local getPlayerRadioChannel = exports.tokovoip_script:getPlayerData(playerName, "radio:channel")
+    local getPlayerRadioChannel = exports.ugrp-tokovoip:getPlayerData(playerName, "radio:channel")
 
     if tonumber(data.channel) ~= tonumber(getPlayerRadioChannel) then
         if tonumber(data.channel) <= Config.RestrictedChannels then
           if(PlayerData.job.name == 'police' or PlayerData.job.name == 'ambulance' or PlayerData.job.name == 'fire') then
-            exports.tokovoip_script:removePlayerFromRadio(getPlayerRadioChannel)
-            exports.tokovoip_script:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
-            exports.tokovoip_script:addPlayerToRadio(tonumber(data.channel))
+            exports.ugrp-tokovoip:removePlayerFromRadio(getPlayerRadioChannel)
+            exports.ugrp-tokovoip:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
+            exports.ugrp-tokovoip:addPlayerToRadio(tonumber(data.channel))
             exports['mythic_notify']:DoHudText('inform', Config.messages['joined_to_radio'] .. data.channel .. '.00 MHz </b>')
           elseif not (PlayerData.job.name == 'police' or PlayerData.job.name == 'ambulance' or PlayerData.job.name == 'fire') then
             --- info że nie możesz dołączyć bo nie jesteś policjantem
@@ -91,18 +91,18 @@ RegisterNUICallback('joinRadio', function(data, cb)
           end
         end
         if tonumber(data.channel) > Config.RestrictedChannels then
-          exports.tokovoip_script:removePlayerFromRadio(getPlayerRadioChannel)
-          exports.tokovoip_script:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
-          exports.tokovoip_script:addPlayerToRadio(tonumber(data.channel))
+          exports.ugrp-tokovoip:removePlayerFromRadio(getPlayerRadioChannel)
+          exports.ugrp-tokovoip:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
+          exports.ugrp-tokovoip:addPlayerToRadio(tonumber(data.channel))
           exports['mythic_notify']:DoHudText('inform', Config.messages['joined_to_radio'] .. data.channel .. '.00 MHz </b>')
         end
       else
         exports['mythic_notify']:DoHudText('error', Config.messages['you_on_radio'] .. data.channel .. '.00 MHz </b>')
       end
       --[[
-    exports.tokovoip_script:removePlayerFromRadio(getPlayerRadioChannel)
-    exports.tokovoip_script:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
-    exports.tokovoip_script:addPlayerToRadio(tonumber(data.channel))
+    exports.ugrp-tokovoip:removePlayerFromRadio(getPlayerRadioChannel)
+    exports.ugrp-tokovoip:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
+    exports.ugrp-tokovoip:addPlayerToRadio(tonumber(data.channel))
     PrintChatMessage("radio: " .. data.channel)
     print('radiook')
       ]]--
@@ -113,13 +113,13 @@ end)
 
 RegisterNUICallback('leaveRadio', function(data, cb)
    local playerName = GetPlayerName(PlayerId())
-   local getPlayerRadioChannel = exports.tokovoip_script:getPlayerData(playerName, "radio:channel")
+   local getPlayerRadioChannel = exports.ugrp-tokovoip:getPlayerData(playerName, "radio:channel")
 
     if getPlayerRadioChannel == "nil" then
       exports['mythic_notify']:DoHudText('inform', Config.messages['not_on_radio'])
         else
-          exports.tokovoip_script:removePlayerFromRadio(getPlayerRadioChannel)
-          exports.tokovoip_script:setPlayerData(playerName, "radio:channel", "nil", true)
+          exports.ugrp-tokovoip:removePlayerFromRadio(getPlayerRadioChannel)
+          exports.ugrp-tokovoip:setPlayerData(playerName, "radio:channel", "nil", true)
           exports['mythic_notify']:DoHudText('inform', Config.messages['you_leave'] .. getPlayerRadioChannel .. '.00 MHz </b>')
     end
 
@@ -146,13 +146,13 @@ end)
 RegisterNetEvent('ls-radio:onRadioDrop')
 AddEventHandler('ls-radio:onRadioDrop', function(source)
   local playerName = GetPlayerName(source)
-  local getPlayerRadioChannel = exports.tokovoip_script:getPlayerData(playerName, "radio:channel")
+  local getPlayerRadioChannel = exports.ugrp-tokovoip:getPlayerData(playerName, "radio:channel")
 
 
   if getPlayerRadioChannel ~= "nil" then
 
-    exports.tokovoip_script:removePlayerFromRadio(getPlayerRadioChannel)
-    exports.tokovoip_script:setPlayerData(playerName, "radio:channel", "nil", true)
+    exports.ugrp-tokovoip:removePlayerFromRadio(getPlayerRadioChannel)
+    exports.ugrp-tokovoip:setPlayerData(playerName, "radio:channel", "nil", true)
     exports['ls_notify']:DoHudText('inform', Config.messages['you_leave'] .. getPlayerRadioChannel .. '.00 MHz </b>')
 
 end
